@@ -6,12 +6,12 @@ rm(list = ls())
 getwd()
 
 
-mycounts<-read.csv("seed.csv",row.names = 1)
+mycounts<-read.csv("rm.csv",row.names = 1)
 dim(mycounts)
 mycount <- mycounts[rowMeans(mycounts)>1,] 
 dim(mycount)
 
-mymeta<-read.csv("seed_meta.csv",stringsAsFactors = T) 
+mymeta<-read.csv("rm_meta.csv",stringsAsFactors = T) 
 colnames(mycount) == mymeta$id
 
 
@@ -26,11 +26,11 @@ class(res)
 res_1<-data.frame(res)
 class(res_1)
 head(res_1)
-write.csv(mycount,file = "seed_count.csv") 
-write.csv(res_1,file = "seed_diffmycount.csv") 
+write.csv(mycount,file = "rm_count.csv") 
+write.csv(res_1,file = "rm_diffmycount.csv") 
 
 
-df<-read.csv("seed_diffmycount.csv",header=T,stringsAsFactors = F)
+df<-read.csv("rm_diffmycount.csv",header=T,stringsAsFactors = F)
 head(df)
 dim(df)
 df$group<-ifelse(df$log2FoldChange>=2&df$pvalue<=0.05,"Enriched",
@@ -38,7 +38,7 @@ df$group<-ifelse(df$log2FoldChange>=2&df$pvalue<=0.05,"Enriched",
                         "Depleted","Not sig"))
 table(df$group)
 
-write.csv(df,file="seed_diff_summary.csv",quote = F)
+write.csv(df,file="rm_diff_summary.csv",quote = F)
 
 library(ggplot2)
 #install.packages("ggrepel")
@@ -57,8 +57,8 @@ p= ggplot(df,aes(x=log2FoldChange,y=-log10(pvalue)))+
                                 label=Features,fosme=1000))+
    theme_bw()  + theme(legend.position = "none")+
   
-   labs(y="-log10(pvalue)",x="log(Fold Change)",title="Seed depleted:1,enriched:0")
+   labs(y="-log10(pvalue)",x="log(Fold Change)",title="Root_seedling depleted:1,enriched:0")
 
 p
-ggsave(paste("seed.pdf", sep=""), p, width = 4.5, height = 5)
-ggsave(paste("seed.png", sep=""), p, width = 4.5, height = 5)
+ggsave(paste("rm.pdf", sep=""), p, width = 4.5, height = 5)
+ggsave(paste("rm.png", sep=""), p, width = 4.5, height = 5)
