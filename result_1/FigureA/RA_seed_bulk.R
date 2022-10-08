@@ -1,6 +1,8 @@
+# Result1, Figuer A, microbiomes compsition_seed_bulk
+# Author: Xing Wang
+# Data: October 8th 2022
 getwd()
 rm(list=ls()) 
-#可视化
 sub_merge <- read.table('RA_upload_seed_bulk.txt', row.names = 1, stringsAsFactors = FALSE, check.names = FALSE)
 library(ggplot2)
 sub_merge$Comparts<-factor(sub_merge$Comparts,levels=c("Bulk_soil", "Seed_endosphere"), 
