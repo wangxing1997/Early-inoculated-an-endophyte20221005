@@ -1,5 +1,6 @@
-#Result1,Figuer C,alpha_diversity_compartment
-#Author: Xing Wang
+# Result2, Figuer B, alpha_diversity
+# Author: Xing Wang
+# Data: October 8th 2022
 
 getwd()
 rm(list = ls())
@@ -34,16 +35,10 @@ p
 ggsave(paste("compartment.png", sep=""), p, width = 4, height = 4)
 
 
-# 统计组间是否显著差异
-# anova对指数与分组统计
 Shannon_stats <- aov(Shannon ~ Compartments, data = df)
-# 使用TukeyHSD对组间进行检验，效正pvalue
 Tukey_HSD_Shannon <- TukeyHSD(Shannon_stats, ordered = FALSE, conf.level = 0.95)
-# 结果中提取需要的结果
 Tukey_HSD_Shannon_table <- as.data.frame(Tukey_HSD_Shannon$Compartments)
-# 预览结果
 Tukey_HSD_Shannon_table
-# 保存结果到文件，按Pvaule值由小到大排序
 write.table(Tukey_HSD_Shannon_table[order(Tukey_HSD_Shannon_table$p, decreasing=FALSE), ], file="compartments_stat.txt",append = FALSE, quote = FALSE, sep="\t",eol = "\n", na = "NA", dec = ".", row.names = TRUE,col.names = TRUE)
 
 
