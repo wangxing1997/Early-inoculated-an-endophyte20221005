@@ -1,5 +1,6 @@
-#Result1,Figuer C,beta_diversity
+#Result2, Figuer C,beta_diversity_all
 #Author: Xing Wang
+# Data: October 8th 2022
 
 getwd()
 rm(list = ls())
@@ -9,7 +10,6 @@ otu_table <- read.table("pcoa.txt",sep="\t", row.names=1, header=T)
 meta_tab <- read.table("pcoa_meta.txt", header=T, row.names=1, check.names=F)
 otu_table <- data.frame(t(otu_table))
 
-# 计算加权bray-curtis距离
 dune_dist <- vegdist(otu_table, method="bray", binary=F)
 dune_pcoa <- cmdscale(dune_dist, k = (nrow(otu_table) - 1), eig = TRUE)
 
@@ -30,15 +30,11 @@ ggplot(dune_pcoa_result, aes(x=PCoA1, y=PCoA2, color=SampleType)) +
   theme_classic()
 
 
-#因为是随机置换，在未指定随机数种子时，每次执行的结果都会略有不同，但通常对结论没有影响。
-#也可以如下设置随机数种子，则结果稳定。
-# 基于bray-curtis距离进行计算
 set.seed(1)
 dune.div <- adonis2(otu_table ~ SampleType, data = meta_tab, permutations = 999, method="bray")
 
 dune.div
 
-#把统计检验结果加到PcOA的图上
 dune_adonis <- paste0("R-squared: ",round(dune.div$R2,2), "; P-value: ", dune.div$`Pr(>F)`)
 
 p= ggplot(dune_pcoa_result, aes(x=PCoA1, y=PCoA2, color=SampleType, group = SampleType)) +
