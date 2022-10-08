@@ -10,7 +10,7 @@ library(dplyr)
 library(reshape2)
 setwd()
 
-importance <- read.table("ck.txt", sep="\t", header=T)
+importance <- read.table("xs.txt", sep="\t", header=T)
 group <- read.table("treatment.txt",sep="\t", header=T, row.names=1)
 
 data = transform(importance[,2:3], Selection = importance$Heterogeneous.Selection + importance$Homogeneous.Selection,
@@ -81,7 +81,7 @@ P = ggplot(plotdata, aes(developmental_stages,  Value*100, color = Process)) + g
         panel.grid.minor = element_blank())+  
   ylab("Process importance")+xlab("developmental_stages") 
 P
-jpeg(file = "ck.jpg",width =3000,height = 2000,units = "px",res =300)
+jpeg(file = "xs.jpg",width =3000,height = 2000,units = "px",res =300)
 print(P)
 dev.off()
 
