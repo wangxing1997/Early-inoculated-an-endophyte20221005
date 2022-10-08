@@ -1,19 +1,17 @@
-#title: "Result2,Deseq2"
-#author: "Xing Wang"
-#date: "2022/4/26"
-#output: html_document
+# Result4, Figuer A, Deseq2
+# Author: Xing Wang
+# Data: October 8th 2022
 
 rm(list = ls())
 getwd()
 
-#未抽平或标准化数据
+
 mycounts<-read.csv("seed.csv",row.names = 1)
 dim(mycounts)
-mycount <- mycounts[rowMeans(mycounts)>1,] #去除低丰度
+mycount <- mycounts[rowMeans(mycounts)>1,] 
 dim(mycount)
-#字符串转因子
+
 mymeta<-read.csv("seed_meta.csv",stringsAsFactors = T) 
-#检验分组数据是否和数据分组名一致
 colnames(mycount) == mymeta$id
 
 
@@ -22,18 +20,16 @@ dds <- DESeqDataSetFromMatrix(countData=mycount,
                               colData=mymeta, 
                               design=~dex)
 dds <- DESeq(dds)
-res <- results(dds,contrast = c("dex","Xs","CK"))#后面的是对照
+res <- results(dds,contrast = c("dex","Xs","CK"))
 head(res)
 class(res)
 res_1<-data.frame(res)
 class(res_1)
 head(res_1)
-write.csv(mycount,file = "seed_count.csv") #保留筛选后的count矩阵
-write.csv(res_1,file = "seed_diffmycount.csv") #保留差异基因矩阵
+write.csv(mycount,file = "seed_count.csv") 
+write.csv(res_1,file = "seed_diffmycount.csv") 
 
 
-
-#做带标签的火山图
 df<-read.csv("seed_diffmycount.csv",header=T,stringsAsFactors = F)
 head(df)
 dim(df)
